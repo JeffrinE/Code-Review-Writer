@@ -71,6 +71,8 @@ def codeToTextRun(folder_path, excluded_folders_list):
     code_to_text = codeToText(folder_path,  excluded_folders_list)
     code_to_text.get_file()
 
+def test():
+    pass
 
 codeToTextRun(r"D:\VSCodeProjects\URL-SHORTENER",[r"D:\VSCod[eProjects\URL-SHORTENER\node_modules", r"D:\VSCodeProjects\URL-SHORTENER\package-lock.json", r"D:\VSCodeProjects\URL-SHORTENER\package.json", r"D:\VSCodeProjects\URL-SHORTENER\output.json", r"D:\VSCodeProjects\URL-SHORTENER\.idea\.gitignore"])
 
