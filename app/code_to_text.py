@@ -1,5 +1,4 @@
 import os
-
 class codeToText:
 
     def __init__(self, folder_path, excluded_files):
