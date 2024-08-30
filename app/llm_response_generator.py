@@ -2,11 +2,14 @@ from langchain_community.llms import Ollama
 from langchain_core.tools import Tool
 from langchain_core.messages import SystemMessage, HumanMessage
 
-try:
-    llm = Ollama(model='llama3', temperature=0)
-except:
-    print("Unable to connect to Ollama")
-
+llm: Ollama
+def set_llm():
+    try:
+        global llm
+        llm = Ollama(model='llama3', temperature=0.2)
+    except:
+        print("Unable to Connect to Ollama or Model: llama3 unavailable")
+        return "Unable to Connect to Ollama or Model: llama3 unavailable"
 
 def file_content_function(_):
     with open("output/file_content.txt", "r") as file:
