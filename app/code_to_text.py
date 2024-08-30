@@ -61,10 +61,17 @@ class codeToText:
     def get_file(self):
         contents = self.get_text()
         structure = self.get_tree()
-        with open("file_content.txt", "w") as file_contents:
+
+        try:
+            if not os.path.exists(r"output"):
+                os.mkdir("output")
+        except:
+            pass
+
+        with open("output/file_content.txt", "w") as file_contents:
             file_contents.write(contents)
 
-        with open("file_structure.txt", "w") as file_structure:
+        with open("output/file_structure.txt", "w") as file_structure:
             file_structure.write(structure)
 
     def codeToTextRun(folder_path, excluded_folders_list):
