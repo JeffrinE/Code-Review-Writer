@@ -3,13 +3,14 @@ from langchain_core.tools import Tool
 from langchain_core.messages import SystemMessage, HumanMessage
 
 llm: Ollama
-def set_llm():
+
+def set_llm(model):
     try:
         global llm
-        llm = Ollama(model='llama3', temperature=0.2)
+        llm = Ollama(model=model, temperature=0.2)
     except:
-        print("Unable to Connect to Ollama or Model: llama3 unavailable")
-        return "Unable to Connect to Ollama or Model: llama3 unavailable"
+        print("Unable to Connect to Ollama")
+        return "Unable to Connect to Ollama"
 
 def file_content_function(_):
     with open("output/file_content.txt", "r") as file:
@@ -48,7 +49,7 @@ class GithubReadMe:
         self.backstory = agent.backstory
         self.task = task
 
-    def generate(self, inputs):
+    def generate(self, inputs, llm):
         task_info = self.task.info
 
         messages = [
@@ -61,6 +62,18 @@ class GithubReadMe:
 
         return llm_response
 
+    def edit_generate(self, inputs, llm):
+        task_info = self.task.info
+
+        messages = [
+            SystemMessage(content=f"you are a {self.role}. {self.backstory}. Your goal is {self.goal}."),
+            HumanMessage(
+                content=f"{task_info.format(file_content_generated=inputs["file_content_generated"], prompt=inputs['prompt'], memory = inputs['memory'])}")
+        ]
+
+        llm_response = llm.invoke(messages)
+
+        return llm_response
 
 github_agent = Agent(
     name="Github Readme Writer",
@@ -70,7 +83,7 @@ github_agent = Agent(
 )
 
 github_agent_task = Task(
-    info="From the following text which is a compiled code from all files from a software project generate a ReadMe "
+    info="From the following text which is a compiled code from all files from a software project generate a documentation or ReadMe "
          "content in markdown format, {file_content}."
          "1. Generate the ReadMe content in the following sequence, "
          "{sequence}"
@@ -83,7 +96,7 @@ github_agent_task = Task(
 )
 
 
-def main(sequence_list):
+def main(sequence_list, llm):
     readme_generator: GithubReadMe = GithubReadMe(github_agent, github_agent_task)
 
     sequence = ""
@@ -92,9 +105,30 @@ def main(sequence_list):
 
     result = readme_generator.generate(inputs=
                                        {"file_content": file_content_tool.run("_"),
-                                        "sequence": sequence})
+                                        "sequence": sequence}, llm= llm)
 
     return result
 
-set_llm()
 
+editor_agent = Agent(
+    name="ReadMe Editor",
+    role="Edit given ReadMe according to the peompt",
+    goal="Return edited content according to the given task",
+    backstory="You are a readme editor. Your job is to edit and return the given readme according to the user prompt "
+)
+
+editor_agent_task = Task(
+    info="{prompt} in {file_content_generated}."
+         "1. Edit only the section told to be edited."
+         "2. do not include any notes or return anything other than the readme content"
+         "3. return edited content"
+         "memory: {memory}",
+    expected_output="A text content in markdown format",
+    agent=editor_agent,
+    name="Editor Agent Result"
+)
+
+def editor_agent_response(file_content_generated, prompt, memory, llm):
+    edit_generator: GithubReadMe = GithubReadMe(editor_agent, editor_agent_task)
+    result = edit_generator.edit_generate(inputs={"file_content_generated": file_content_generated, "prompt": prompt, "memory": memory}, llm= llm)
+    return result
