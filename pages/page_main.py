@@ -38,7 +38,7 @@ option = container_models.selectbox(
     local_models.get_local_models(),
     index=None,
     placeholder="Select model",
-    key= "model_selectable"
+    key= "selectable model"
 )
 
 st.session_state.model = option
@@ -117,9 +117,8 @@ if "structure" not in st.session_state:
 
 if st.session_state.generate_clicked and not st.session_state.generated_content:
     code_to_text_database = code_to_text.codeToText.codeToTextRun(st.session_state.main_folder_path, st.session_state.excluded_files)
-    llm_response_generator.set_llm(option)
     st.session_state.structure = code_to_text_database
-    response = llm_response_generator.main(sequence_list)
+    response = llm_response_generator.main(sequence_list, st.session_state.llm)
     st.session_state.generated_content = response
     container_response.write(response)
 
