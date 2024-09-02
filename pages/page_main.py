@@ -87,6 +87,8 @@ if st.session_state.exclusion_bt_clicked:
 
     container_browse_excluded.markdown(file_written)
 
+sidebar.info("Project by Jeffrin E")
+
 # Multi Select
 
 options = st.multiselect(
