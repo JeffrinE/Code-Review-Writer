@@ -112,15 +112,14 @@ st.button("Generate", key="generate", on_click= clicked_generate)
 
 container_response = st.container(border= True)
 
+if "structure" not in st.session_state:
+    st.session_state.structure = ""
+
 if st.session_state.generate_clicked and not st.session_state.generated_content:
     code_to_text_database = code_to_text.codeToText.codeToTextRun(st.session_state.main_folder_path, st.session_state.excluded_files)
     llm_response_generator.set_llm(option)
-    # response = llm_response_generator.main(sequence_list)
-    # st.session_state.generated_content = response
-    # container_response.write(response)
-    with open(r"D:\PycharmProjects\Github-ReadMe-Writer\text.txt") as f:
-        file = f.read()
-    response = file
+    st.session_state.structure = code_to_text_database
+    response = llm_response_generator.main(sequence_list)
     st.session_state.generated_content = response
     container_response.write(response)
 
