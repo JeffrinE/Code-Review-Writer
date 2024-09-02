@@ -76,5 +76,7 @@ class codeToText:
     def codeToTextRun(folder_path, excluded_folders_list):
         code_to_text = codeToText(folder_path,  excluded_folders_list)
         code_to_text.get_file()
+        with open("output/file_structure.txt", "r") as f: structure = f.read()
+        return structure
 
 
