@@ -42,9 +42,12 @@ streamlit run run.py
 ```
 
 ---
-***NOTE***
+
+__NOTE:__ 
 Wait until each action is finished executing shown by the 'Running' icon on the top right. 
+
 ---
+
 # Conclusion:
 The Github-ReadMe-Writer is a comprehensive solution designed for developers who want to create professional, informative README files effortlessly. With its advanced features and easy-to-use interface, it simplifies content generation while maintaining high standards of quality and style.
 
