@@ -21,14 +21,14 @@ with st.sidebar:
     if prompt := st.chat_input("User Prompt"):
         messages.chat_message("user").write(prompt)
 
-        try:
-            generated_content = llm_response_generator.editor_agent_response(st.session_state.generated_content, prompt,
-                                                                             memory, st.session_state.llm)
-            st.session_state.generated_content = generated_content
-            container.write(st.session_state.generated_content)
-            memory.append(generated_content)
-        except Exception as e:
-            container.warning(f"Sorry an error occured, refresh page")
+    try:
+        generated_content = llm_response_generator.editor_agent_response(st.session_state.generated_content, prompt,
+                                                                         memory, st.session_state.llm)
+        st.session_state.generated_content = generated_content
+        container.write(st.session_state.generated_content)
+        memory.append(generated_content)
+    except Exception as e:
+        container.warning(f"Sorry an error occured, refresh page")
 
     container_structure = st.container(border= True)
     container_structure.title(f"File Structure\n")
