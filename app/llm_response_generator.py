@@ -111,14 +111,15 @@ def main(sequence_list, llm):
 
 
 editor_agent = Agent(
-    name="ReadMe Editor",
-    role="Edit given ReadMe according to the peompt",
-    goal="Return edited content according to the given task",
-    backstory="You are a readme editor. Your job is to edit and return the given readme according to the user prompt "
+    name="content Editor",
+    role="Edit given ReadMe by what is said in the prompt",
+    goal="Return content edited according to user's requirements",
+    backstory="You are a readme editor. Your job is to edit and return the edited content according to the user prompt "
 )
 
 editor_agent_task = Task(
     info="{prompt} in {file_content_generated}."
+         "Follow the rules given below: "
          "1. Edit only the section told to be edited."
          "2. do not include any notes or return anything other than the readme content"
          "3. return edited content"
