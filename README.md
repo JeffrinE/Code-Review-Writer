@@ -1,7 +1,7 @@
 # Project Description: 
-## Github-ReadMe-Writer
+## Code-Review-Writer
 
-The Github-ReadMe-Writer project is an innovative tool designed to streamline the process of creating and editing README files for GitHub repositories. By integrating with llms, it offers a seamless experience in generating high-quality content that adheres to best practices in documentation.
+The Code-Review-Writer project is an innovative tool designed to streamline the process of creating and editing documentation for projects. By integrating with llms, it offers a seamless experience in generating high-quality content that adheres to best practices in documentation.
 
 ---
 # Features:
